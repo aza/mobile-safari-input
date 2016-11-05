@@ -4,32 +4,61 @@
     <title>Test</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+
+    <style>
+    body{ font-family: Helvetica; }
+    .header{ width: 100%; height: 50px; background-color: #cc3300; box-shadow: 0 3px 5px rgba(0,0,0,.1); position: fixed; top: 0; left: 0;}
+    .footer{ width: 100%; background-color: #cc3300; height: 50px; position: fixed; bottom: 0; left: 0; text-align: center;}
+    .content{ padding-top: 50px;}
+    #input{ width: 95%; height: 40px; margin-top: 5px; border: none; font-size: 15px;}
+    </style>
+
   </head>
   <body>
 
-    <style>
-    .header{ width: 100%; height: 50px; background-color: #cc3300; box-shadow: 0 3px 5px rgba(0,0,0,.1); position: fixed; top: 0; left: 0;}
-    </style>
+
+
+
     <div class="header"></div>
 
+    <div class="content">
+      <p>Purr chase mice sit in window and stare ooo, a bird! yum, use lap as
+        chair, for always hungry so stare at ceiling light. Curl into a furry
+        donut.</p>
 
-    <style>
-    .footer{ width: 100%; background-color: #cc3300; height: 50px; position: fixed; bottom: 0; left: 0; text-align: center;}
-    #input{ width: 95%; height: 45px;}
-    </style>
+      <p>Jump around on couch, meow constantly until given food, refuse to drink water except out of someone's glass meow meow, i tell my human but meowing non stop for food. Meow to be let in meowing non stop for food. Stick butt in face go into a room to decide you didn't want to be in there anyway so nap all day, for destroy the blinds destroy couch as revenge. Stare at wall turn and meow stare at wall some more meow again continue staring rub face on everything sleep on keyboard, for meow all night having their mate disturbing sleeping humans.
+      </p>
+
+      <p>Purr for no reason refuse to leave cardboard box and claw drapes, or fall over dead (not really but gets sypathy) cats go for world domination if it smells like fish eat as much as you wish. Human give me attention meow sleep on keyboard go into a room to decide you didn't want to be in there anyway or lounge in doorway or eat owner's food, leave dead animals as gifts. Mark territory damn that dog hack up furballs, bathe private parts with tongue then lick owner's face and walk on car leaving trail of paw prints on hood and windshield.</p>
+
+      <p>Chew iPad power cord scratch the box dream about hunting birds. Lay on arms while you're using the keyboard instantly break out into full speed gallop across the house for no reason or hunt anything that moves scratch the box. </p>
+
+      <p>Shake treat bag lick the other cats so hunt by meowing loudly at 5am next to human slave food dispenser and rub face on owner. Intrigued by the shower meow, or eat a plant, kill a hand. Poop in litter box, scratch the walls leave fur on owners clothes. Gate keepers of hell sit by the fire and scamper for purr for no reason yet sleep in the bathroom sink. Favor packaging over toy. Climb a tree, wait for a fireman jump to fireman then scratch his face poop in the plant pot and always hungry find something else more interesting lick butt, or get video posted to internet for chasing red dot so chase imaginary bugs. <p>
+
+    </div>
+
+
 
     <div class="footer">
-      <input id="input" type="text">
+      <input id="input" type="text" placeholder="Chat in #test">
     </div>
 
     <script>
     $('#input').on('focus', e => {
-      // window.scrollBy(0,0) // Causes there to be no funky change on input focus. window.scroll(0,0) doesn't change behavior.
+      // Interesting side behavior. Calling window.scrollBy (and not anything
+      // else I've found, included window.scroll) causes there to be no funky
+      // change/scroll on input focus. This may be useful, but doesn't help in
+      // knowing where to position the footer.
+      //
+      //window.scrollBy(0,0)
 
-      $('.header').hide()
+      $('.header').hide() // header is fixed positioned, so it'll scroll off the top of the screen. Hide it to reduce visual nosie.
+
       setTimeout( () => {
-        window.scrollTo( 0, window.scrollY-10 )
-        $('.header').css('top', window.scrollY).show()
+        window.scrollTo( 0, window.scrollY-10 ) // 10 seems to work across all iPhones, not sure why 10...
+        $('.header').css('top', window.scrollY)
+
+        setTimeout( () => { $('.header').show() }, 100 ) // Re-show the header once animations are done
       }, 150 )
 
     })
