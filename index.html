@@ -75,8 +75,8 @@
         data.windowInnerHeightWithKeyboard = windowHeight
 
         window.scrollTo( 0, data.prefocusScrollY )
-        $('.header').css({top: data.prefocusScrollY })
-        $('.footer').css({top: data.prefocusScrollY + data.windowInnerHeightWithKeyboard - $('.footer').height() })
+        headerEl.css({top: data.prefocusScrollY })
+        footerEl.css({top: data.prefocusScrollY + data.windowInnerHeightWithKeyboard - footerEl.height() })
 
         setTimeout( () => { headerEl.show() }, 100) // reshow header after scrolling is completed
 
@@ -85,8 +85,8 @@
     })
 
     $('#input').on('blur', e => {
-      $('.header').css({top:0})
-      $('.footer').css({top:'auto', bottom: 0})
+      headerEl.css({top:0})
+      footerEl.css({top:'auto', bottom: 0})
     })
 
     // Interesting discovery:
