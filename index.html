@@ -45,47 +45,60 @@
 
     <script>
 
+    // Global for storing state and stuff. Ugly, but good enough for a hack.
     var data = {}
 
+    var headerEl = $('.header'),
+        footerEl = $('.footer')
+
+    // Grab the current scroll position before the input is focused. Needed
+    // because window.scrollY gets messed up by the time onFocus is invoked.
     $('#input').on('touchstart', e => {
       data.prefocusScrollY = window.scrollY
+      headerEl.hide() // prevent header scroll flicker
     })
 
     $('#input').on('focus', e => {
-      // Interesting side behavior. Calling window.scrollBy (and not anything
-      // else I've found, included window.scroll) causes there to be no funky
-      // change/scroll on input focus. This may be useful, but doesn't help in
-      // knowing where to position the footer.
-      //
-      //window.scrollBy(0,0)
 
+
+      // Wait until the keyboard has slid up, which means window.scrollY will
+      // have taken a new position. A more robust version of this wouldn't use
+      // a timeout, but instead wait for window.scrollY to have changed.
       setTimeout( () => {
-        console.log( 'Start scrollY', data.prefocusScrollY )
-        window.scrollTo( 0, window.scrollY-10 ) // 10 seems to work across all iPhones, not sure why 10...
-        //$('.header').css('top', window.scrollY)
 
-        var windowHeight = $('.footer').position().top + $('.footer').height()
+        window.scrollTo( 0, window.scrollY-10 ) // 10 seems to work across all iPhones, not sure why 10...
+        // With the above scroll trick, the footer is now positioned flush against the top
+        // of the keyboard. This means we can use it to compute the height of the
+        // keyboard and the actual window.innerHeight!
+        var windowHeight = footerEl.position().top + footerEl.height()
         data.keyboardHeight = window.innerHeight - windowHeight
         data.windowInnerHeightWithKeyboard = windowHeight
-  
+
         window.scrollTo( 0, data.prefocusScrollY )
         $('.header').css({top: data.prefocusScrollY })
         $('.footer').css({top: data.prefocusScrollY + data.windowInnerHeightWithKeyboard - $('.footer').height() })
 
-        //$('.header').height( windowHeight )
-        //$('.footer').hide()
+        setTimeout( () => { headerEl.show() }, 100) // reshow header after scrolling is completed
 
       }, 150 )
 
     })
 
     $('#input').on('blur', e => {
-      // setTimeout( e => {
-        $('.header').css({top:0})
-        $('.footer').css({top:'auto', bottom: 0})
-      // }, 150 )
-
+      $('.header').css({top:0})
+      $('.footer').css({top:'auto', bottom: 0})
     })
+
+    // Interesting discovery:
+    //
+    // Calling `window.scrollBy(0,0)` within input.onFocus, and then return,
+    // causes there to be no funky change/scroll on input focus. This may be
+    // useful, but doesn't help in knowing where to position the footer,
+    // and doesn't allow us to calculate the keyboard height
+    //
+    // If we have a map of iPhone's to keyboard heights then perhaps this
+    // may be a promising direction.
+
     </script>
   </body>
 </html>
