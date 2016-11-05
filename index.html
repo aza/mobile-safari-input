@@ -45,6 +45,13 @@
 
     <script>
 
+    // Disables pinch to zoom
+    document.documentElement.addEventListener('touchstart', (event) => {
+      if (event.touches.length > 1) event.preventDefault()
+    }, false)
+
+
+
     // Global for storing state and stuff. Ugly, but good enough for a hack.
     var data = {}
 
